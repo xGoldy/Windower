@@ -1,0 +1,38 @@
+# Windower global configuration file
+#
+# Author: Patrik Goldschmidt (igoldschmidt@fit.vut.cz)
+# Author: Jan Kučera (jan.kucera@cesnet.cz)
+# Date: 2023-05-02
+# Project: Windower: Feature Extraction for Real-Time DDoS Detection Using ML
+# Repository: https://github.com/xGoldy/Windower
+#
+# Note: Non-required lines can be commented out. In this case default values will be used.
+---
+dataset_creator:
+
+logger:
+  # Length of the window in seconds
+  window_length: 1
+
+  # (Optional, default: 6) Minimum number of collected windows to process the given IP
+  history_min: 6
+
+  # (Optional, default: 0) Maximum number of elements that are stored in memory for
+  # history. 0 refers to "infinity", allowing to store records to up 5GB of computer memory
+  history_size: 0
+
+  # (Optional, default: 120) Maximum number of seconds for which historical logs are valid
+  history_timeout: 120
+
+  # (Optional, default: 20) Minimum number of packets in the window to log it
+  packets_min: 10
+
+  # (Optional, default: 40) Number of samples for entropy estimation per IP per window
+  samples_size: 40
+
+mitig_simulator:
+  # Threshold for marking a sample as anomalous
+  threshold: 10
+
+  # (Optional, default: 1000000) Size of the denylist (blacklist) in entries
+  denylist_size: 1000000
