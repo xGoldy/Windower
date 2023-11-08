@@ -25,7 +25,7 @@ import sys
 
 # Parallel program settings
 FILE_EXT='pcap'
-TEMP_FOLDER='/mnt/ssd4tb/xgolds00/temporino'
+TEMP_FOLDER='/tmp/flows2packets'
 
 
 def init_pool(the_lock):

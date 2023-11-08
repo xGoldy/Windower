@@ -8,7 +8,7 @@ Project: Windower: Feature Extraction for Real-Time DDoS Detection Using ML
 Repository: https://github.com/xGoldy/Windower
 
 Usage:
-python labeldataset.py <in_PCAP> <in_attack_ips> <out_labels>
+python dataset_label.py <in_PCAP> <in_attack_ips> <out_labels>
 """
 
 import scapy

@@ -48,7 +48,7 @@ _DATASET_CONFIG_NDSEC = {
 
 _DATASET_CONFIG_UNSWNB15 = {
     CONFIG_KEY_PROPERTIES : {
-        'DATASET_BIFLOW' : True,
+        'DATASET_BIFLOW' : False,
         'DATASET_TSTAMP_PRECISION' : 0,
         # Leave to None, computed later
         'TIMESTAMP_MODIF_CONST' : None
