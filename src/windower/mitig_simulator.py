@@ -23,6 +23,7 @@ where:
 """
 
 import numpy as np
+import pandas as pd
 import sys
 import tqdm
 
@@ -94,32 +95,37 @@ def main(args : list) -> None:
                 preds_file.write(f'{pred[0]},{pred[1]},')
                 preds_file.write(('1' if pred[0] in attackers else '0') + '\n')
 
-    # Dump statistics from the packet handler and add ground truth in the eval mode
+    # Dump statistics from the packet handler and add ground truth for evaluation
     stats = pkt_handler.get_statistics()
-
-    # Determine true labels
-    stats['true_label'] = ['Attack' if ip in attackers else 'Benign' for ip, _ in stats.iterrows()]
+    stats['label'] = ['Attack' if ip in attackers else 'Benign' for ip, _ in stats.iterrows()]
 
     ###################################################
     ##########   Print statistical outputs   ##########
     ###################################################
+    print("\n------   Per-Source IP Communication Statistics   -----\n")
     print(stats.to_string(index=True))
 
     # Precompute data for real attackers and legitimate users
-    real_attackers     = stats[stats['true_label'] == 'Attack']
-    real_legitimate    = stats[stats['true_label'] == 'Benign']
+    real_attackers     = stats[stats['label'] == 'Attack']
+    real_legitimate    = stats[stats['label'] == 'Benign']
     classif_attackers  = stats[stats['detections_pos'] > 0]
-    classif_legit      = stats[(stats['detections_pos'] == 0) & (stats['detections_neg'] > 0)]
+    classif_legit      = stats[stats['detections_neg'] > 0]
     classif_total      = stats['detections_pos'].sum() + stats['detections_neg'].sum()
 
-    # Compute how many were samples of true labels were actually processed by ML model
+    hosts_detection_both = len(stats[(stats['detections_neg'] > 0) & (stats['detections_pos'] > 0)])
+    ratio_attackers_detected = len(set(real_attackers.index).intersection(
+        set(classif_attackers.index))) / len(real_attackers) if len(real_attackers) != 0 else 1.0
+
+    # Compute how many samples of true labels were actually processed by ML model
     # True labels may not be processed if their pps is not high enough or they do not communicate
     # for the required number of time windows
+    # Consider a successful attacker detection if at least 80% (coef * 4) of packets were denied
     classif_proc_attck_all  = real_attackers[(real_attackers['detections_neg'] > 0) | \
         (real_attackers['detections_pos'] > 0)]
-    classif_proc_attck_true = real_attackers[(real_attackers['detections_neg'] == 0) & \
-        (real_attackers['detections_pos'] > 0)]
+    classif_proc_attck_true = real_attackers[(real_attackers['detections_pos'] > 0) & \
+        (real_attackers['pkts_denied'] >= real_attackers['pkts_allowed'] * 4)]
 
+    # We are very strict upon FPR. Positive detection must stay at 0 to consider success.
     classif_proc_legit_all  = real_legitimate[(real_legitimate['detections_neg'] > 0) | \
         (real_legitimate['detections_pos'] > 0)]
     classif_proc_legit_true = real_legitimate[(real_legitimate['detections_neg'] > 0) & \
@@ -128,9 +134,11 @@ def main(args : list) -> None:
     # Compute prediction statistics
     tp = classif_proc_attck_true['detections_pos'].sum()
     tn = classif_proc_legit_true['detections_neg'].sum()
-    fp = classif_attackers[classif_attackers['true_label'] == 'Benign']['detections_pos'].sum()
-    fn = classif_legit[classif_legit['true_label'] == 'Attack']['detections_neg'].sum()
-    conf_matrix = np.array([[tp, fp], [fn, tn]])
+    fp = classif_attackers[classif_attackers['label'] == 'Benign']['detections_pos'].sum()
+    fn = classif_legit[classif_legit['label'] == 'Attack']['detections_neg'].sum()
+    #conf_matrix = np.array([[tp, fp], [fn, tn]])
+    conf_matrix = pd.DataFrame([[tp, fn], [fp, tn]], index=['True Pos', 'True Neg'],
+        columns=['Pred Pos', 'Pred Neg'])
 
     accuracy  = (tp + tn) / classif_total if classif_total != 0 else '-'
     precision = tp / (tp + fp) if (tp + fp) != 0 else '-'
@@ -143,13 +151,9 @@ def main(args : list) -> None:
     real_legitimate_pkts    = real_legitimate['pkts_allowed'].sum() + real_legitimate['pkts_denied'].sum()
     real_legitimate_allowed = real_legitimate['pkts_allowed'].sum()
 
-    hosts_detection_both = len(stats[(stats['detections_neg'] > 0) & (stats['detections_pos'] > 0)])
-    ratio_attackers_detected = len(set(real_attackers.index).intersection(set(classif_attackers.index))) / \
-        len(real_attackers) if len(real_attackers) != 0 else 1.0
-
     # Print the findings
-    print("------   Classification statistics   -----")
-    print("\nTotal number of classifications: {}".format(classif_total))
+    print("\n------   Model's Classification Statistics   -----\n")
+    print("Total number of classifications: {}".format(classif_total))
     print("Attackers detection  : {} / {}".format(len(classif_proc_attck_true), len(classif_proc_attck_all)))
     print("Legitimate detection : {} / {}".format(len(classif_proc_legit_true), len(classif_proc_legit_all)))
     print("Attackers all        : {} / {}".format(len(classif_proc_attck_true), len(real_attackers)))
@@ -159,9 +163,9 @@ def main(args : list) -> None:
     print("Accuracy  : {}".format(accuracy))
     print("Precision : {}".format(precision))
     print("Recall    : {}".format(recall))
-    print("F-Score   : {}\n".format(fscore))
+    print("F-Score   : {}".format(fscore))
 
-    print("-----   Per-packet mitigation statistics   -----")
+    print("\n-----   Per-packet Mitigation Statistics   -----\n")
     print("Real attackers packet denied ratio    : {:<.3f} ({} / {})".format(
         real_attackers_denied / real_attackers_pkts if real_attackers_pkts != 0 else 1.0, real_attackers_denied,
         real_attackers_pkts))

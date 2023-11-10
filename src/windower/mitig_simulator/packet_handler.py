@@ -67,18 +67,24 @@ class PacketHandler:
         self._window_interval   = sec2nsec(window_interval) # Windowing interval in nanoseconds
 
 
-    def process(self, packet) -> None:
+    def process(self, packet) -> None | tuple[str, float]:
         """Packet handler function.
         Performs windowing by setting the right times within the function if desired. If external windowing system
         is used, more emphasis is put on the throughput, so windows have to be switched by a different thread outside
         of packet processing function.
 
         Parameters:
-            packet Raw packet data to be processed"""
+            packet Raw packet data to be processed
+
+        Returns:
+            None if the packet is non-IPv4/IPv6
+            tuple[str, float] otherwise
+                str -- IP address of the packet
+                float -- Latest loss (e.g., RMSE) of the corresponding packet's IP"""
 
         pkt_features = extractor.extract_features(packet)
 
-        # Ignore Non IPv4/IPv6 data
+        # Ignore non-IPv4/IPv6 data
         if pkt_features is None:
             return
 
