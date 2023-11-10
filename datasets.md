@@ -219,29 +219,29 @@ In addition to making the evaluation more realistic, limiting the `147.32.0.0/16
 4. According to the documentation, the bot `147.32.84.165` strictly targeted one target - `147.32.96.69` with its DDoS traffic. Since the bot also performed other types of non-malicious communication. We need to extract malicious communication from benign. We use the following `tcpdump` commands for such purpose:
 
 ```shell
-tcpdump -r ctu13_cvutin.pcap -w ctu_sc4_malicious.pcap 'ip and src host 147.32.84.165 and dst host 147.32.96.69'
-tcpdump -r ctu13_cvutin.pcap -w ctu_sc4_benign.pcap 'ip and (not src host 147.32.84.165 or not dst host 147.32.96.69)'
+tcpdump -r ctu13_cvutin.pcap -w ctu13_sc4_malicious.pcap 'ip and src host 147.32.84.165 and dst host 147.32.96.69'
+tcpdump -r ctu13_cvutin.pcap -w ctu13_sc4_benign.pcap 'ip and (not src host 147.32.84.165 or not dst host 147.32.96.69)'
 ```
 
-After this phase, the files `ctu_sc4_malicious.pcap` and `ctu_sc4_benign.pcap` are obtained. Our manual analysis has shown that the malicious file contains no benign traffic and is consistent with the CTU-13 Scenario 4 documentation - the bot and the victim did not communicate except for the extracted attack scenarios.
+After this phase, the files `ctu13_sc4_malicious.pcap` and `ctu_sc4_benign.pcap` are obtained. Our manual analysis has shown that the malicious file contains no benign traffic and is consistent with the CTU-13 Scenario 4 documentation - the bot and the victim did not communicate except for the extracted attack scenarios.
 
 5. Our manual analysis revealed that the benign dataset part contains several thousands of packets coming from the infected bot. As these packets cannot be considered malicious, we need to remap the IP address of the attacking traffic in order to perform proper per-packet labeling:
 
 ```shell
-tcprewrite -i ctu_sc4_malicious.pcap -o ctu_sc4_malicious_remap.pcap --srcipmap=147.32.84.165/32:10.0.0.165/32
+tcprewrite -i ctu13_sc4_malicious.pcap -o ctu13_sc4_malicious_remap.pcap --srcipmap=147.32.84.165/32:10.0.0.165/32
 ```
 
 6. Merge the remapped attack traffic back to the benign one:
 
 ```shell
-mergecap -w ctu_sc4_remap.pcap ctu_sc4_benign.pcap ctu_sc4_malicious_remap.pcap
+mergecap -w ctu13_sc4_remap.pcap ctu13_sc4_benign.pcap ctu13_sc4_malicious_remap.pcap
 ```
 
 7. Create train and test dataset subsets by splitting the remapped capture by the specified timestamp `2011-08-15 12:30:00`:
 
 ```shell
-editcap -B "2011-08-15 12:30:00" ctu_sc4_malicious_remap.pcap ctu13_sc4_train.pcap
-editcap -A "2011-08-15 12:30:00" ctu_sc4_malicious_remap.pcap ctu13_sc4_test.pcap
+editcap -B "2011-08-15 12:30:00" ctu13_sc4_remap.pcap ctu13_sc4_train.pcap
+editcap -A "2011-08-15 12:30:00" ctu13_sc4_remap.pcap ctu13_sc4_test.pcap
 ```
 
 This step creates an attack-free train set and test set with UDP and ICMP DoS attacks performed by the bot. Despite the attack being declared to start at `12:21:33`, its true beginning was at `12:32:40`, so we utilized an extra 10 minutes to form a more robust train set.

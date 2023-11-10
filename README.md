@@ -23,9 +23,10 @@ In our experiments, we used `Python 3.11.6` and the newest package versions avai
 
 1. Install Python Development headers on your machine, e.g.,:
    - `dnf install python3-devel` (Fedora)
-   - `apt-get install python-dev` (Debian)
+   - `apt-get install python3-dev` (Debian)
 2. Create a Python virtual environment, e.g.:
    - `python -m venv windower_venv`
+   - You might need additional packages in your system, e.g., `python3-venv`
 3. Activate the virtual environment, e.g.:
    - `source windower_venv/bin/activate`
 4. Install the required packages, e.g.,:
@@ -44,7 +45,7 @@ Using the Windower for our experiments replication or a custom processing compri
 2. Training and exporting the ML model.
 3. Evaluation of the model's performance via a DDoS attack simulation deployment scenario.
 
-The above steps require a series of commands, which we demonstrate in two Jupyter Notebooks in the `examples` folder. The first notebook (`example_kitsune.ipynb`) demonstrates running the pipeline with the original Kitsune model. The second one (`example_windower.ipynb`) then shows the Windower's pipeline run and corresponding performance analysis. Both experiments utilize the specialized subset of CTU-13 dataset, scenario #4, as further explained in the `example_dataprep.ipynb`.
+The above steps require a series of commands, which we demonstrate in four Jupyter Notebooks in the `examples` folder. The first notebook (`00_dataset.ipynb`) demonstrates preparation of the raw PCAP dataset used for both original Kitsune and Windower methods. The notebook `01_kitsune.ipynb` shows specific data preprocessing, model training and evaluation for the Kitsune model, whereas `02_windower.ipynb` presents the data preparation, training and evaluating using the proposed Windower feature extraction mechanism. Finally, the `03_perf.comparison` analyzes and compares the performance of both methods.
 
 As mentioned, we cannot provide the exact utilized PCAPs due to copyright reasons, so the pipeline in the notebooks cannot be simply run as is due to the missing data. Nevertheless, the above example should provide an idea of how the pipeline is used, and insights in the `datasets.md` can help in data reconstruction or completely new datasets creation on demand.
 
@@ -84,7 +85,7 @@ Details will be filled in after the paper acceptance.
 
 Details will be filled in after the paper acceptance.
 
-```
+```bibtex
 @article{goldschmidt2023_windower,
   author    = {Patrik Goldschmidt and Jan Ku\v{c}era},
   title     = {Windower: Feature Extraction for Real-Time DDoS Detection Using Machine Learning},
