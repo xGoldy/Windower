@@ -11,7 +11,7 @@ For the evaluation, we used four datasets, namely:
 
 The following sections will now briefly introduce each dataset and provide the steps in order to reconstruct the same subsets as we used. Furthermore, we provide information on how we labeled packets in each dataset in [Per-Packet Data Labeling](#per-packet-data-labeling) section for mitigation simulation performance evaluation.
 
-If you need a quick example of how the dataset is reconstructed, see `examples/00_dataset.ipynb` Jupyter notebook, where we reconstruct a subset of CTU-13 Scenario 4
+If you need a quick example of how the dataset is reconstructed, see `examples/00_dataset.ipynb` Jupyter notebook, where we reconstruct a subset of CTU-13 Scenario 4.
 
 ## CAIDA Dataset
 
