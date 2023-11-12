@@ -1,6 +1,7 @@
 
 import numpy
 import os
+import pathlib
 import subprocess
 
 import pyximport
@@ -8,9 +9,10 @@ pyximport.install()
 
 use_extrapolation=True # experimental correlation code
 if use_extrapolation:
-    if not os.path.isfile("AfterImage_extrapolate.c"): # has not yet been compiled, so try to do so...
+    curdir = pathlib.Path(__file__).parent.resolve()
+    if not os.path.isfile(curdir / "AfterImage_extrapolate.c"): # has not yet been compiled, so try to do so...
         cmd = "python setup.py build_ext --inplace"
-        subprocess.call(cmd,shell=True)
+        subprocess.call(cmd, cwd=curdir, shell=True)
 
     import AfterImage_extrapolate as af
 else:
