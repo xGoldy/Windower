@@ -17,6 +17,50 @@ Link to the paper:
 
 The experimental results evaluated on several datasets indicate the ability to reliably detect an ongoing attack within the first six seconds of its start and mitigate 99\% of flood and 92\% of slow attacks while maintaining false positives below 1\%. In contrast to state-of-the-art, our approach provides greater flexibility by achieving high detection performance and low resources as flow-based systems while offering prompt attack detection known from packet-based solutions. Windower thus brings an appealing trade-off between attack detection performance, detection delay, and computing resources suitable for real-world deployments.
 
+## Extracted Features
+
+The following table provides a brief list of the collected traffic features. The list can also be found inside the `src/windower/packetprocessing/logtypes.py`, whereas the final statistics there correspond to the merging of `WINDOW_SUMMARY_STATS` and `INTERWINDOW_STATS`. Nevertheless, we list these statistics here for clarity. When the Windower evolves, new collected statistics will inevitably be added, and those listed in the paper will not correspond to the actual list of statistics anymore. For this reason, we aim to provide a current, always-updated version here in the GitHub repository.
+
+**Current status:** Statistics **correspond** to the the paper.
+
+| ID  | Name                         | Description                                  |
+| --- | ---------------------------- | -------------------------------------------- |
+| 1   | `src_ip`                     | Source IP address of the corresponding entry |
+| 2   | `window_count`               | Number of summarized time windows            |
+| 3   | `window_span`                | Summarized windows span (last ID - first ID) |
+| 4   | `pkts_total`                 | The number of transferred packets            |
+| 5   | `bytes_total`                | Sum of bytes within the trasnferred packets  |
+| 6   | `pkt_rate`                   | Packets-per-second rate                      |
+| 7   | `byte_rate`                  | Bytes-per-second rate                        |
+| 8   | `pkt_arrivals_avg`           | Inter-arrival packet time (IAT) average      |
+| 9   | `pkt_arrivals_std`           | Std of packet IAT values                     |
+| 10  | `pkt_size_min`               | Minimum observed packet size                 |
+| 11  | `pkt_size_min`               | Maximum observed packet size                 |
+| 12  | `pkt_size_avg`               | Average observed packet size                 |
+| 13  | `pkt_size_std`               | Std of observed packet sizes                 |
+| 14  | `proto_tcp_share`            | TCP traffic share                            |
+| 15  | `proto_udp_share`            | UDP traffic share                            |
+| 16  | `proto_icmp_share`           | ICMP traffic share                           |
+| 17  | `port_src_unique`            | Number of unique source ports                |
+| 18  | `port_src_entropy`           | Source port entropy                          |
+| 19  | `conn_pkts_avg`              | Packet average in socket-to-socket transfers |
+| 20  | `pkts_frag_share`            | Share of fragmented packets                  |
+| 21  | `hdrs_payload_ratio_avg`     | Average of header to packet size ratio       |
+| 22  | `pkts_total_std`             | Std of a number of transferred packets       |
+| 23  | `bytes_total_std`            | Std of a sum of transferred bytes            |
+| 24  | `pkt_size_avg_std`           | Std of a packet size averags                 |
+| 25  | `pkt_size_std_std`           | Std of packet size stds                      |
+| 26  | `pkt_arrivals_avg_std`       | Std of average times between packet arrivals |
+| 27  | `port_src_unique_std`        | Std of number of unique source ports         |
+| 28  | `port_src_entropy_std`       | Std of source port entropy values            |
+| 29  | `conn_pkts_avg_std`          | Std of packet count per connection averages  |
+| 30  | `pkts_frag_share_std`        | Std of fragmented packets share              |
+| 31  | `hdrs_payload_ratio_avg_std` | Std of header to whole packet ratios         |
+| 32  | `dominant_proto_ratio_std`   | Std of ratios of the dominant L4 protocol    |
+| 33  | `intrawindow_activity_ratio` | Estimate of IP activity within windows       |
+| 34  | `interwindow_activity_ratio` | Estimate of IP activity during the period    |
+| 35  | `target`                     | Target class (label)                         |
+
 ## Installation
 
 In our experiments, we used `Python 3.11.6` and the newest package versions available in October 2023. In order to replicate our environment, we suggest performing the following steps:
@@ -46,6 +90,8 @@ Using the Windower for our experiments replication or a custom processing compri
 3. Evaluation of the model's performance via a DDoS attack simulation deployment scenario.
 
 The above steps require a series of commands, which we demonstrate in four Jupyter Notebooks in the `examples` folder. The first notebook (`00_dataset.ipynb`) demonstrates preparation of the raw PCAP dataset used for both original Kitsune and Windower methods. The notebook `01_kitsune.ipynb` shows specific data preprocessing, model training and evaluation for the Kitsune model, whereas `02_windower.ipynb` presents the data preparation, training and evaluating using the proposed Windower feature extraction mechanism. Finally, the `03_perf.comparison` analyzes and compares the performance of both methods.
+
+When performing feature extraction and running mitigation simulation (notebook `02_windower.ipynb`), the Windower's behavior can be controlled via the `src/windower/config.yml` configuration file. This file provides a simple way to configure the most crucial settings like the window length in seconds, the minimum number of collected windows, or the minimum number of packets required in every window to consider it valid. Refer to the mentioned `config.yml` file for more information.
 
 As mentioned, we cannot provide the exact utilized PCAPs due to copyright reasons, so the pipeline in the notebooks cannot be simply run as is due to the missing data. Nevertheless, the above example should provide an idea of how the pipeline is used, and insights in the `datasets.md` can help in data reconstruction or completely new datasets creation on demand.
 
