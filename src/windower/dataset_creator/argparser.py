@@ -16,7 +16,7 @@ from common.exceptions import ArgumentCombinationException
 # Program description messages
 PROG_DESCRIPTION = "Create CSV datasets from PCAP files."
 PROG_EPILOG = "Configuration keys: dataset_creator, logger"\
-    "\n\nAuthor: Patrik Goldschmidt (xgolds00@stud.fit.vutbr.cz)\nVersion: 1.0. (07-2021)"
+    "\n\nAuthor: Patrik Goldschmidt (igoldschmidt@fit.vut.cz)\nVersion: 1.1. (08-2023)"
 PROG_NAME = "dataset_creator.py"
 PROG_USAGE = "dataset_creator.py [-h] | (-p PCAP_FILE [-n PCAP_FILE] | -n PCAP_FILE [-p PCAP_FILE]) "\
     "[-t TSTAMPS_FILE] [-m] -c CONFIG_FILE OUT_FILE"

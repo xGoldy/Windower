@@ -13,7 +13,7 @@ import argparse
 
 PROG_DESCRIPTION = "Evaluates DDoS mitigation model capabilities"
 PROG_EPILOG = "Configuration keys: mitig_simulator, logger"\
-    "\n\nAuthor: Patrik Goldschmidt (xgolds00@stud.fit.vutbr.cz)\nVersion: 1.0. (07-2021)"
+    "\n\nAuthor: Patrik Goldschmidt (igoldschmidt@fit.vut.cz)\nVersion: 1.1. (08-2023)"
 PROG_NAME = "mitig_simulator.py"
 PROG_USAGE = "mitig_simulator.py [-h] | -p PCAP_FILE c CONFIG_FILE -m MODEL_FILE [-v]"\
     "[-P PREDICTIONS_FILE] [-a ATTACKERS_LIST] [-E OUT_FILE]"
