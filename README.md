@@ -1,6 +1,6 @@
 # Windower
 
-This is an official repository for Windower, a feature-extraction mechanism published as XXX in XXX on XXX 2024.
+This is an official repository for Windower, a feature-extraction mechanism accepted to [IEEE NOMS 2024](https://noms2024.ieee-noms.org/), happening on 06-10 May 2024.
 
 Authors:
 
@@ -9,7 +9,7 @@ Authors:
 
 Link to the paper:
 
-- XXX
+- The link will be added after the paper's publication.
 
 ## Abstract
 
@@ -125,11 +125,11 @@ If you use our code or mention our article, please cite us using the following f
 
 #### APA
 
-Details will be filled in after the paper acceptance.
+Details will be filled in after the paper's publication.
 
 #### BibTeX
 
-Details will be filled in after the paper acceptance.
+Details will be filled in after the paper's publication.
 
 ```bibtex
 @article{goldschmidt2023_windower,
