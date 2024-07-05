@@ -130,7 +130,7 @@ P. Goldschmidt and J. Kučera, "Windower: Feature Extraction for Real-Time DDoS 
 #### BibTeX
 
 ```bibtex
-@inproceedings{goldschmidt2023_windower,
+@inproceedings{goldschmidt2024_windower,
   author    = {Patrik Goldschmidt and Jan Ku\v{c}era},
   title     = {Windower: Feature Extraction for Real-Time DDoS Detection Using Machine Learning},
   booktitle = {NOMS 2024-2024 IEEE Network Operations and Management Symposium}, 
