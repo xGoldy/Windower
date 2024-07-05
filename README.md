@@ -140,7 +140,7 @@ P. Goldschmidt and J. Kučera, "Windower: Feature Extraction for Real-Time DDoS 
   number    = {},
   pages     = {1-10},
   publisher = {IEEEXplore},
-  doi       = {10.1109/NOMS59830.2024.10575699}
+  doi       = {10.1109/NOMS59830.2024.10575699},
   note      = {Online GitHub repository: \url{https://github.com/xGoldy/Windower}}
 }
 ```
