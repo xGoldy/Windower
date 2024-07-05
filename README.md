@@ -1,6 +1,6 @@
 # Windower
 
-This is an official repository for Windower, a feature-extraction mechanism accepted to [IEEE NOMS 2024](https://noms2024.ieee-noms.org/), happening on 06-10 May 2024.
+This is an official repository for Windower, a feature-extraction mechanism for network intrusion detection presented at [IEEE NOMS 2024](https://noms2024.ieee-noms.org/).
 
 Authors:
 
@@ -9,7 +9,7 @@ Authors:
 
 Link to the paper:
 
-- The link will be added after the paper's publication.
+- https://ieeexplore.ieee.org/document/10575699
 
 ## Abstract
 
@@ -123,26 +123,24 @@ Our code, as well as the original Kitsune/KitNet's code, is published under the 
 
 If you use our code or mention our article, please cite us using the following format:
 
-#### APA
+#### Plaintext
 
-Details will be filled in after the paper's publication.
+P. Goldschmidt and J. Kučera, "Windower: Feature Extraction for Real-Time DDoS Detection Using Machine Learning," NOMS 2024-2024 IEEE Network Operations and Management Symposium, Seoul, Korea, Republic of, May 2024, pp. 1-10, doi: 10.1109/NOMS59830.2024.10575699.
 
 #### BibTeX
 
-Details will be filled in after the paper's publication.
-
 ```bibtex
-@article{goldschmidt2023_windower,
+@inproceedings{goldschmidt2023_windower,
   author    = {Patrik Goldschmidt and Jan Ku\v{c}era},
   title     = {Windower: Feature Extraction for Real-Time DDoS Detection Using Machine Learning},
-  booktitle = {},
-  year      = {2023},
-  month     = {},
+  booktitle = {NOMS 2024-2024 IEEE Network Operations and Management Symposium}, 
+  year      = {2024},
+  month     = {may},
   volume    = {},
   number    = {},
-  series    = {},
-  pages     = {},
-  publisher = {},
+  pages     = {1-10},
+  publisher = {IEEEXplore},
+  doi       = {10.1109/NOMS59830.2024.10575699}
   note      = {Online GitHub repository: \url{https://github.com/xGoldy/Windower}}
 }
 ```
