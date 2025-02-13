@@ -125,7 +125,7 @@ If you use our code or mention our article, please cite us using the following f
 
 #### Plaintext
 
-P. Goldschmidt and J. Kučera, "Windower: Feature Extraction for Real-Time DDoS Detection Using Machine Learning," NOMS 2024-2024 IEEE Network Operations and Management Symposium, Seoul, Korea, Republic of, May 2024, pp. 1-10, doi: 10.1109/NOMS59830.2024.10575699.
+P. Goldschmidt and J. Kučera, "Windower: Feature Extraction for Real-Time DDoS Detection Using Machine Learning", NOMS 2024-2024 IEEE Network Operations and Management Symposium, Seoul, Korea, Republic of, May 2024, pp. 1-10, doi: 10.1109/NOMS59830.2024.10575699.
 
 #### BibTeX
 
